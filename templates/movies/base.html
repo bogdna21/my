@@ -1,20 +1,17 @@
 {% extends 'base.html' %}
-{% block title %} {% endblock title %}
+
 {% block content %}
-    <section class="ab-info-main py-md-5 py-4 editContent"
-             style="padding-left: 3rem; padding-right: 3rem;">
-        {% block container %}
-            <div class="container-fluid py-md-3">
-        {% endblock container %}
-        <div class="row">
-            {% block sidebar %}
-                <div class="side-bar col-lg-3">
-            {% endblock sidebar %}
-            {% include 'include/sidebar.html' %}
-            </div>
-            {% block movie %}
-            {% endblock movie %}
+    <h1>Список книг</h1>
+
+    {% for book in books %}
+        <div class="book">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" width="150px" height="200px">
+            <h2>{{ book.title }}</h2>
+            <p><strong>Автори:</strong> {{ book.author.all|join:", " }}</p>
+            <p><strong>Жанри:</strong> {{ book.genre.all|join:", " }}</p>
+            <p>{{ book.description|slice:":200" }}...</p>
+            <a href="{% url 'movie_detail' book.id %}">Детальніше</a>
         </div>
-        </div>
-    </section>
-{% endblock content %}
+    {% endfor %}
+
+{% endblock %}

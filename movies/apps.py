@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MoviesConfig(AppConfig):
+class BooksConfig(AppConfig):
     name = 'movies'
-    verbose_name = "Фильмы"
+    verbose_name = "Книги"

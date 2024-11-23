@@ -43,8 +43,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.vk',
+
 ]
 
 MIDDLEWARE = [
@@ -112,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'uk'
 
 TIME_ZONE = 'UTC'
 
@@ -132,7 +131,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 gettext = lambda s: s
 LANGUAGES = (
-    ('ru', gettext('Russia')),
+    ('uk', gettext('Ukraine')),
     ('en', gettext('English')),
 )
 

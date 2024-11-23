@@ -4,7 +4,7 @@ from .models import Contact
 
 
 class ContactForm(forms.ModelForm):
-    """Форма подписки по email"""
+    """Форма підписки по email"""
     captcha = ReCaptchaField()
 
     class Meta:

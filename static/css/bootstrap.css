@@ -51,8 +51,9 @@ html {
 }
 
 @-ms-viewport {
-  width: device-width;
+  width: auto;
 }
+
 
 article, aside, dialog, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block;
@@ -2160,11 +2161,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 }
 
 .form-check-inline {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   padding-left: 0;
   margin-right: 0.75rem;
@@ -3312,8 +3309,6 @@ tbody.collapse.show {
 .btn-group,
 .btn-group-vertical {
   position: relative;
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   vertical-align: middle;
 }
@@ -3611,11 +3606,10 @@ tbody.collapse.show {
 }
 
 .custom-control-inline {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
   display: inline-flex;
   margin-right: 1rem;
 }
+
 
 .custom-control-input {
   position: absolute;
@@ -6314,8 +6308,6 @@ button.bg-dark:focus {
 }
 
 .d-inline-flex {
-  display: -webkit-inline-box !important;
-  display: -ms-inline-flexbox !important;
   display: inline-flex !important;
 }
 
@@ -6347,10 +6339,9 @@ button.bg-dark:focus {
     display: flex !important;
   }
   .d-sm-inline-flex {
-    display: -webkit-inline-box !important;
-    display: -ms-inline-flexbox !important;
-    display: inline-flex !important;
+  display: inline-flex !important;
   }
+
 }
 
 @media (min-width: 768px) {
@@ -6381,9 +6372,7 @@ button.bg-dark:focus {
     display: flex !important;
   }
   .d-md-inline-flex {
-    display: -webkit-inline-box !important;
-    display: -ms-inline-flexbox !important;
-    display: inline-flex !important;
+  display: inline-flex !important;
   }
 }
 
@@ -6415,10 +6404,9 @@ button.bg-dark:focus {
     display: flex !important;
   }
   .d-lg-inline-flex {
-    display: -webkit-inline-box !important;
-    display: -ms-inline-flexbox !important;
-    display: inline-flex !important;
+  display: inline-flex !important;
   }
+
 }
 
 @media (min-width: 1200px) {
@@ -6449,10 +6437,9 @@ button.bg-dark:focus {
     display: flex !important;
   }
   .d-xl-inline-flex {
-    display: -webkit-inline-box !important;
-    display: -ms-inline-flexbox !important;
-    display: inline-flex !important;
+  display: inline-flex !important;
   }
+
 }
 
 @media print {
@@ -6483,9 +6470,7 @@ button.bg-dark:focus {
     display: flex !important;
   }
   .d-print-inline-flex {
-    display: -webkit-inline-box !important;
-    display: -ms-inline-flexbox !important;
-    display: inline-flex !important;
+  display: inline-flex !important;
   }
 }
 
@@ -7315,7 +7300,6 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
-  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7335,9 +7319,8 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .sticky-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -8895,12 +8878,19 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .text-hide {
-  font: 0/0 a;
+  font-size: 0;
+  line-height: 0;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
-  border: 0;
+  border: none;
+  height: 0;
+  width: 0;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
+
 
 .visible {
   visibility: visible !important;

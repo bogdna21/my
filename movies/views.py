@@ -1,23 +1,22 @@
-from django.conf import settings
 from django.db import models
-from django.db.models import Q, OuterRef, Subquery, Case, When
+from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
-from .models import Movie, Category, Actor, Genre, Rating, Reviews
+from .models import Book, Category, Author, Genre, Rating, Review
 from .forms import ReviewForm, RatingForm
 
 
 class GenreYear:
-    """Жанры и года выхода фильмов"""
+    """Жанри і роки публікації книг"""
 
     def get_genres(self):
         return Genre.objects.all()
 
     def get_years(self):
-        return Movie.objects.filter(draft=False).values("year")
+        return Book.objects.filter(draft=False).values("year")
 
 
 def get_client_ip(request):
@@ -29,17 +28,17 @@ def get_client_ip(request):
     return ip
 
 
-class MoviesView(GenreYear, ListView):
-    """Список фильмов"""
-    model = Movie
-    queryset = Movie.objects.filter(draft=False)
+class BooksView(GenreYear, ListView):
+    """Список книг"""
+    model = Book
+    queryset = Book.objects.filter(draft=False)
     paginate_by = 1
+    template_name = "movies/movie_list.html"
 
-
-class MovieDetailView(GenreYear, DetailView):
-    """Полное описание фильма"""
-    model = Movie
-    queryset = Movie.objects.filter(draft=False)
+class BookDetailView(GenreYear, DetailView):
+    """Повне описання книги"""
+    model = Book
+    queryset = Book.objects.filter(draft=False)
     slug_field = "url"
 
     def get_context_data(self, **kwargs):
@@ -50,33 +49,33 @@ class MovieDetailView(GenreYear, DetailView):
 
 
 class AddReview(View):
-    """Отзывы"""
+    """Відгуки про книгу"""
 
     def post(self, request, pk):
         form = ReviewForm(request.POST)
-        movie = Movie.objects.get(id=pk)
+        book = Book.objects.get(id=pk)
         if form.is_valid():
             form = form.save(commit=False)
             if request.POST.get("parent", None):
                 form.parent_id = int(request.POST.get("parent"))
-            form.movie = movie
+            form.book = book
             form.save()
-        return redirect(movie.get_absolute_url())
+        return redirect(book.get_absolute_url())
 
 
-class ActorView(GenreYear, DetailView):
-    """Вывод информации о актере"""
-    model = Actor
+class AuthorView(GenreYear, DetailView):
+    """Інформація про автора"""
+    model = Author
     template_name = 'movies/actor.html'
     slug_field = "name"
 
 
-class FilterMoviesView(GenreYear, ListView):
-    """Фильтр фильмов"""
+class FilterBooksView(GenreYear, ListView):
+    """Фільтр книг"""
     paginate_by = 5
 
     def get_queryset(self):
-        queryset = Movie.objects.filter(
+        queryset = Book.objects.filter(
             Q(year__in=self.request.GET.getlist("year")) |
             Q(genres__in=self.request.GET.getlist("genre"))
         ).distinct()
@@ -89,23 +88,23 @@ class FilterMoviesView(GenreYear, ListView):
         return context
 
 
-class JsonFilterMoviesView(ListView):
-    """Фильтр фильмов в json"""
+class JsonFilterBooksView(ListView):
+    """Фільтрація книг у форматі JSON"""
 
     def get_queryset(self):
-        queryset = Movie.objects.filter(
+        queryset = Book.objects.filter(
             Q(year__in=self.request.GET.getlist("year")) |
             Q(genres__in=self.request.GET.getlist("genre"))
-        ).distinct().values("title", "tagline", "url", "poster")
+        ).distinct().values("title", "tagline", "url", "cover_image")
         return queryset
 
     def get(self, request, *args, **kwargs):
         queryset = list(self.get_queryset())
-        return JsonResponse({"movies": queryset}, safe=False)
+        return JsonResponse({"books": queryset}, safe=False)
 
 
 class AddStarRating(View):
-    """Добавление рейтинга фильму"""
+    """Оцінка книги"""
 
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -120,7 +119,7 @@ class AddStarRating(View):
         if form.is_valid():
             Rating.objects.update_or_create(
                 ip=self.get_client_ip(request),
-                movie_id=int(request.POST.get("movie")),
+                book_id=int(request.POST.get("book")),
                 defaults={'star_id': int(request.POST.get("star"))}
             )
             return HttpResponse(status=201)
@@ -129,11 +128,11 @@ class AddStarRating(View):
 
 
 class Search(ListView):
-    """Поиск фильмов"""
+    """Пошук книг"""
     paginate_by = 3
 
     def get_queryset(self):
-        return Movie.objects.filter(title__icontains=self.request.GET.get("q"))
+        return Book.objects.filter(title__icontains=self.request.GET.get("q"))
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
