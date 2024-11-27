@@ -887,15 +887,11 @@ ul.w3layouts-box-list li {
 }
 
 .grid-img-right {
-    background: url(../images/single.jpg) no-repeat center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -ms-background-size: cover;
-    background-size: cover;
+    background: url(../images/s1.jpg) no-repeat center center;
+    background-size: cover; /* Забезпечує покриття весь елемент */
     position: relative;
-    height: 15em;
-    padding: 5.5em 2em 0 0;
+    height: 15em; /* Висота для малих екранів */
+    padding: 5.5em 2em 0 0; /* Відступи для розташування вмісту */
 }
 
 .grid-img-right span.money {
@@ -928,9 +924,11 @@ ul.w3layouts-box-list li {
     font-size: 1.3em;
     color: #62676b;
     line-height: 1.5em;
-    -webkit-text-stroke: 0.2px;
     font-weight: 400;
+    -webkit-text-stroke: 0.2px #62676b; /* Тіні для тексту, для браузерів, які підтримують це */
+    text-stroke: 0.2px #62676b; /* Для браузерів, які підтримують standard CSS */
 }
+
 
 .share h4 {
     font-size: 0.9em;
@@ -946,13 +944,14 @@ ul.w3layouts-box-list li {
 }
 
 .desc1-right h5 a {
-    margin-left: 5px;
-    color: #555555;
-    text-transform: capitalize;
-    font-size: 14px;
-    -webkit-text-stroke: 0px;
-    letter-spacing: 0px;
+    margin-left: 5px; /* Відступ від лівого краю */
+    color: #555555; /* Колір тексту */
+    text-transform: capitalize; /* Перетворення першої літери кожного слова на велику */
+    font-size: 14px; /* Розмір шрифта */
+    letter-spacing: 0px; /* Відстань між літерами */
+    text-decoration: none; /* Відключення підкреслення, якщо потрібно */
 }
+
 
 .available span a {
     margin: 4% 0;
@@ -1471,8 +1470,14 @@ a.move-top span {
     }
 
     .product-men {
-        margin-bottom: 1em;
-    }
+    flex: 1; /* Автоматична ширина */
+    max-width: 45%; /* Обмеження ширини для кожної книги */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
 
     .navbar-toggler {
         padding: 0.3rem 0.5rem;
@@ -1554,10 +1559,14 @@ a.move-top span {
     }
 
     .product-men {
-        margin-bottom: 1em;
-        float: left;
-        width: 50%;
-    }
+    flex: 1; /* Автоматична ширина */
+    max-width: 45%; /* Обмеження ширини для кожної книги */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
 
     .footer-grid_section_w3layouts {
         padding: 1em 0;
@@ -1679,10 +1688,14 @@ a.move-top span {
     }
 
     .product-men {
-        margin-bottom: 1em;
-        float: left;
-        width: 100%;
-    }
+    flex: 1; /* Автоматична ширина */
+    max-width: 45%; /* Обмеження ширини для кожної книги */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+}
 
     .gd-bottom {
         float: left;
@@ -1708,4 +1721,30 @@ a.move-top span {
 @media (max-width: 320px) {
 }
 
-/*--//responsive--*/
+.book-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.book-card {
+    flex: 0 1 45%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.book-card img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+}
+.search-bar,
+form[name="filter"],
+.customer-rev {
+    margin-left: 15px;
+}

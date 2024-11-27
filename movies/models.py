@@ -56,12 +56,14 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Створено")
     draft = models.BooleanField(default=False)
     slug = models.SlugField(max_length=255, unique=True)
+    tagline = models.CharField(max_length=255, verbose_name="Слоган книги", blank=True, null=True)
+    year = models.PositiveIntegerField(verbose_name="Рік", null=True, blank=True)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("book_detail", kwargs={"pk": self.pk})
+        return reverse("movie_detail", kwargs={"slug": self.slug})
 
     def get_review(self):
         return self.reviews.filter(parent__isnull=True)
@@ -114,11 +116,13 @@ class Review(models.Model):
     user = models.CharField(max_length=255, verbose_name="Користувач")
     text = models.TextField(verbose_name="Текст відгуку")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
+    parent = models.ForeignKey(
+        'self', on_delete=models.SET_NULL, null=True, blank=True, related_name="children", verbose_name="Батьківський відгук"
+    )
 
     def __str__(self):
         return f"{self.user} - {self.book.title}"
 
-
     class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
+        verbose_name = "Відгуки"
+        verbose_name_plural = "Відгуки"

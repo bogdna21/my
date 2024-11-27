@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
 
+{% block title %}Список книг{% endblock title %}
+{% block header %}Список книг{% endblock header %}
 {% block content %}
-    <h1>Список книг</h1>
-
-    {% for book in books %}
-        <div class="book">
-            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" width="150px" height="200px">
-            <h2>{{ book.title }}</h2>
-            <p><strong>Автори:</strong> {{ book.author.all|join:", " }}</p>
-            <p><strong>Жанри:</strong> {{ book.genre.all|join:", " }}</p>
-            <p>{{ book.description|slice:":200" }}...</p>
-            <a href="{% url 'movie_detail' book.id %}">Детальніше</a>
-        </div>
-    {% endfor %}
-
-{% endblock %}
+   <div style="display: flex; justify-content: flex-end; padding-right: 20px;">
+       <div class="book-container" style="display: flex; flex-wrap: wrap; gap: 15px; margin-top: -700px;">
+           {% for book in book_list %}
+               <div class="book-card" style="flex: 0 1 40%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); margin: 10px; background: #fff; padding: 10px; border-radius: 8px; text-align: center; max-width: 300px;">
+                   <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" style="max-width: 100%; height: 180px; object-fit: cover;" {% if not book.cover_image %}style="display:none"{% endif %}>
+                   <h4>
+                       <a href="{{ book.get_absolute_url }}" style="text-decoration: none; color: #000;">
+                           {{ book.title }}
+                       </a>
+                   </h4>
+                   <p><strong>Автори:</strong> {{ book.author.all|join:", " }}</p>
+                   <p><strong>Жанри:</strong> {{ book.genre.all|join:", " }}</p>
+                   <p>{{ book.tagline|slice:":200" }}...</p>
+                   <a href="{{ book.get_absolute_url }}">Детальніше</a>
+               </div>
+           {% endfor %}
+       </div>
+   </div>
+{% endblock content %}

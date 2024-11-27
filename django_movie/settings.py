@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'movies',
     'contact',
     'snowpenguin.django.recaptcha3',
-
     'allauth',
     'allauth.account',
 

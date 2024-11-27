@@ -4,7 +4,7 @@
         <div class="row footer-top">
             <div class="col-lg-4 footer-grid_section_w3layouts">
                 <h2 class="logo-2 mb-lg-4 mb-3">
-                    <a href="index.html" class="editContent">
+                    <a href="{% url 'home' %}" class="editContent">
                         <span class="fa" aria-hidden="true">
                             BookStore
                         </span>
@@ -41,9 +41,9 @@
                         <h3 class="footer-title text-uppercase editContent mb-lg-4 mb-3">
                             Sections</h3>
                         <ul class="list-unstyled w3layouts-icons">
-                            <li><a href="index.html" class="editContent">Home</a></li>
-                            <li><a href="categories.html" class="editContent">Categories</a></li>
-                            <li><a href="contact.html" class="editContent">Contact</a></li>
+                            <li><a href="{% url 'home' %}" class="editContent">Home</a></li>
+                            <li><a href="{% url 'filter' %}" class="editContent">Categories</a></li>
+                            <li><a href="{% url 'contact' %}" class="editContent">Contact</a></li>
                         </ul>
                     </div>
                     <div class="col-md-4 footer-grid_section_w3layouts">
@@ -79,7 +79,7 @@
             <p class="col-md-10 text-left">© 2024 BookStore. All rights reserved | Designed by
                 <a href="https://yourdesignersite.com"> YourDesignTeam.</a>
             </p>
-            <a href="#home" class="move-top text-right col-md-2"><span
+            <a href="home" class="move-top text-right col-md-2"><span
                     class="fa fa-long-arrow-up" aria-hidden="true"></span></a>
         </div>
     </div>

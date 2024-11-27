@@ -5,6 +5,7 @@
     <title>{% block title %} Сайт книг {% endblock title %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all">
     <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
@@ -20,6 +21,7 @@
         <li class="breadcrumb-item"><a href="{% url 'home' %}" class="editContent">Головна</a></li>
         <li class="breadcrumb-item active editContent">{% block page_title %}Сторінка книги{% endblock %}</li>
     </ol>
+    {% include 'include/sidebar.html' %}
     {% block content %} {% endblock %}
     {% include 'include/footer.html' %}
 </div>

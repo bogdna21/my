@@ -1,4 +1,5 @@
 from django.db import models
+from django.http import Http404
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect
@@ -31,20 +32,30 @@ def get_client_ip(request):
 class BooksView(GenreYear, ListView):
     """Список книг"""
     model = Book
-    queryset = Book.objects.filter(draft=False)
-    paginate_by = 1
+    queryset = Book.objects.filter(draft=False).order_by('id')
+    paginate_by = 3
     template_name = "movies/movie_list.html"
+    context_object_name = 'book_list'
 
-class BookDetailView(GenreYear, DetailView):
-    """Повне описання книги"""
+    def get(self, request, *args, **kwargs):
+        print(f"Запит URL: {request.path}")
+        return super().get(request, *args, **kwargs)
+
+
+class BookDetailView(DetailView):
     model = Book
-    queryset = Book.objects.filter(draft=False)
-    slug_field = "url"
+    template_name = 'movies/movie_detail.html'
+    context_object_name = 'book'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get(self, request, *args, **kwargs):
+        print(f"Slug: {kwargs.get('slug')}")
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["star_form"] = RatingForm()
-        context["form"] = ReviewForm()
+        print("Контекст:", context)
         return context
 
 
@@ -72,14 +83,21 @@ class AuthorView(GenreYear, DetailView):
 
 class FilterBooksView(GenreYear, ListView):
     """Фільтр книг"""
-    paginate_by = 5
+    paginate_by = 3
+    template_name = "movies/movie_list.html"
 
     def get_queryset(self):
-        queryset = Book.objects.filter(
-            Q(year__in=self.request.GET.getlist("year")) |
-            Q(genres__in=self.request.GET.getlist("genre"))
-        ).distinct()
-        return queryset
+        queryset = Book.objects.all()
+
+        years = self.request.GET.getlist("year")
+        if years:
+            queryset = queryset.filter(year__in=years)
+
+        genres = self.request.GET.getlist("genre")
+        if genres:
+            queryset = queryset.filter(genre__in=genres)
+
+        return queryset.distinct()
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -94,7 +112,7 @@ class JsonFilterBooksView(ListView):
     def get_queryset(self):
         queryset = Book.objects.filter(
             Q(year__in=self.request.GET.getlist("year")) |
-            Q(genres__in=self.request.GET.getlist("genre"))
+            Q(genre__in=self.request.GET.getlist("genre"))
         ).distinct().values("title", "tagline", "url", "cover_image")
         return queryset
 
@@ -138,3 +156,9 @@ class Search(ListView):
         context = super().get_context_data(*args, **kwargs)
         context["q"] = f'q={self.request.GET.get("q")}&'
         return context
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+    template_name = "include/header.html"  # Шаблон для категорії
+    context_object_name = "category"

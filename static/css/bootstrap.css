@@ -478,9 +478,10 @@ mark,
   content: "\2014 \00A0";
 }
 
+
 .img-fluid {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
 }
 .img-movie-shots {
   max-width: 250px;
@@ -558,11 +559,13 @@ pre code {
 }
 
 .container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+    display: flex;
+    justify-content: center; /* Центрування по горизонталі */
+    align-items: flex-start; /* Центрування по вертикалі */
+    flex-direction: column;
+    padding: 20px;
+    max-width: 1200px; /* Максимальна ширина */
+    margin: 0 auto; /* Центрування контейнера */
 }
 
 @media (min-width: 576px) {
@@ -6302,9 +6305,9 @@ button.bg-dark:focus {
 }
 
 .d-flex {
-  display: -webkit-box !important;
-  display: -ms-flexbox !important;
-  display: flex !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Простір між книгами */
 }
 
 .d-inline-flex {
@@ -7690,7 +7693,12 @@ button.bg-dark:focus {
 
 .mr-auto,
 .mx-auto {
-  margin-right: auto !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.row.justify-content-center{
+    display: flex;
+    justify-content: center;
 }
 
 .mb-auto,
@@ -8726,8 +8734,9 @@ button.bg-dark:focus {
 }
 
 .text-center {
-  text-align: center !important;
+    text-align: center;
 }
+
 
 @media (min-width: 576px) {
   .text-sm-left {
